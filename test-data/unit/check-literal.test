@@ -2984,3 +2984,34 @@ class C(Base):
             reveal_type(sep)  # N: Revealed type is "Union[Literal['a'], Literal['b']]"
         return super().feed_data(sep)
 [builtins fixtures/tuple.pyi]
+
+[case testLiteralIntEnumUnionNarrowing]
+from typing_extensions import Literal
+from typing import Union
+from enum import IntEnum
+
+class A(IntEnum):
+    pass
+
+def foo(a: Union[A, Literal['foo']]) -> None:
+    if a == 'foo':
+        return
+
+    reveal_type(a)  # N: Revealed type is "main.A"
+[builtins fixtures/tuple.pyi]
+
+
+[case testLiteralStrEnumUnionNarrowing]
+from typing_extensions import Literal
+from typing import Union
+from enum import StrEnum
+
+class A(StrEnum):
+    pass
+
+def foo(a: Union[A, Literal['foo']]) -> None:
+    if a == 'foo':
+        return
+
+    reveal_type(a)  # N: Revealed type is "main.A"
+[builtins fixtures/tuple.pyi]
